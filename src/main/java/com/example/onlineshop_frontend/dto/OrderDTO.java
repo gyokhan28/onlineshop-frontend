@@ -12,11 +12,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class OrderDTO {
     private Long id;
-    private UserDTO userDTO;
+    private UserDTO user;
     private LocalDateTime orderDateTime;
     private LocalDateTime orderDeliveryDateTime;
     private LocalDateTime orderCancelDateTime;
     private OrderStatusDTO status;
     private BigDecimal price;
-
 }

@@ -21,10 +21,8 @@ public class UserDTO {
     private String email;
     private String password;
     private LocalDateTime createdAt;
-    private AddressDTO addressDTO;
+    private AddressDTO address;
     private String phoneNumber;
     private boolean isEnabled;
-    private RoleDTO roleDTO;
-    private List<OrderDTO> orderList;
-
+    private RoleDTO role;
 }

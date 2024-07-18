@@ -2,9 +2,12 @@ package com.example.onlineshop_frontend.controllers;
 
 import com.example.onlineshop_frontend.clients.OrderClient;
 import com.example.onlineshop_frontend.dto.OrderDTO;
+import com.example.onlineshop_frontend.dto.OrderResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -16,12 +19,12 @@ public class OrderController {
 
     @GetMapping("/show")
 
-//    public ResponseEntity<OrderDTO> showOrders(){
-//        return orderClient.showOrders();
-//    }
-    public String showOrders() {
+    public ResponseEntity<List<OrderDTO>> showOrders(){
         return orderClient.showOrders();
     }
+//    public String showOrders() {
+//        return orderClient.showOrders();
+//    }
 
     @PutMapping("/change-status")
     public ResponseEntity<Boolean> changeOrderStatus(@RequestParam Long orderId, @RequestParam Long statusId) {
@@ -29,10 +32,10 @@ public class OrderController {
     }
 
     @GetMapping("/show/{id}")
-//    public ResponseEntity<?> viewSingleOrder(@PathVariable("id") Long orderId){
-//        return orderClient.viewSingleOrder(orderId);
-//    }
-    public String viewSingleOrder(@PathVariable("id") Long orderId) {
+    public ResponseEntity<?> viewSingleOrder(@PathVariable("id") Long orderId){
         return orderClient.viewSingleOrder(orderId);
     }
+//    public String viewSingleOrder(@PathVariable("id") Long orderId) {
+//        return orderClient.viewSingleOrder(orderId);
+//    }
 }

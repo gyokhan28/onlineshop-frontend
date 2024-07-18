@@ -24,8 +24,8 @@ public class EmployeeDTO {
     private LocalDate dateOfBirth;
     private BigDecimal salary;
     private String phoneNumber;
-    private JobType jobType;
-    private RoleDTO roleDTO;
+    private JobDTO jobType;
+    private RoleDTO role;
     private LocalDateTime createdAt;
     private boolean isEnabled;
 }
