@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments/head.html(title='Orders')}"></head>
+<nav th:insert="~{fragments/navbar.html}"></nav>
+
+
+<body class="d-flex flex-column min-vh-100">
+
+<div class="col-7 container flex-grow-1 mt-6 mb-6">
+    <div class="row justify-content-center">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username(id)</th>
+                <th scope="col">Order date</th>
+                <th scope="col" style="width: 200px;">Products</th>
+                <th scope="col">Price</th>
+                <th scope="col" style="width: 140px;">Status</th>
+                <th scope="col" style="width: 150px;"></th>
+                <th scope="col" style="width: 150px;"></th>
+            </tr>
+            </thead>
+            <div th:if="${success}" class="alert alert-success">
+                <p th:text="${success}"></p>
+            </div>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <span th:unless="${order.status.name == 'BASKET'}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.user.username} + '(' + ${order.user.id} +')'"></td>
+                <td th:text="${order.orderDateTime}"></td>
+                <td>
+                    <span th:each="orderProduct : ${orderProducts}">
+                        <span th:if="${orderProduct.order.id == order.id}">
+                            <span th:text="${orderProduct.product.name} + ' x' + ${orderProduct.quantity} + ', '"></span>
+                        </span>
+                    </span>
+                </td>
+                <td th:text="${order.price}"></td>
+                    <form th:action="@{/orders/changeStatus}" method="post">
+                        <input type="hidden" name="orderId" th:value="${order.id}">
+                <td>
+                    <select class="form-select" name="statusId">
+                        <option th:each="status : ${statuses}"
+                                th:if="${status.name != 'BASKET'}"
+                                th:text="${status.name}"
+                                th:value="${status.id}"
+                                th:selected="${status.id == order.status.id}"></option>
+                    </select>
+                </td>
+                <td>
+                   <button type="submit" class="btn btn-primary" style="margin-right: 5px;">Save status</button>
+                    </td>
+                        <td>
+                    <a th:href="@{'/orders/show/' + ${order.id}}" class="btn btn-primary">Show details</a>
+                </td>
+                    </form>
+                </span>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+<div th:replace="~{fragments/footer.html}"></div>
+</html>

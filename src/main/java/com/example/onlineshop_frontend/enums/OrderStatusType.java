@@ -20,4 +20,12 @@ public enum OrderStatusType {
     OrderStatusType(long id) {
         this.id = id;
     }
+    public static String getNameById(long id) {
+        for (OrderStatusType status : values()) {
+            if (status.getId() == id) {
+                return status.name();
+            }
+        }
+        return null;
+    }
 }

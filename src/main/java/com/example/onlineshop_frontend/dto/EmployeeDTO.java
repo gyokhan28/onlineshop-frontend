@@ -1,6 +1,5 @@
 package com.example.onlineshop_frontend.dto;
 
-import com.example.onlineshop_frontend.enums.JobType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

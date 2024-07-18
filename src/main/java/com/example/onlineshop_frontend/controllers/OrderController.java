@@ -2,15 +2,19 @@ package com.example.onlineshop_frontend.controllers;
 
 import com.example.onlineshop_frontend.clients.OrderClient;
 import com.example.onlineshop_frontend.dto.OrderDTO;
-import com.example.onlineshop_frontend.dto.OrderResponseDto;
+import com.example.onlineshop_frontend.enums.OrderStatusType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Optional;
 
-
-@RestController
+@Controller
 @RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrderController {
@@ -19,23 +23,25 @@ public class OrderController {
 
     @GetMapping("/show")
 
-    public ResponseEntity<List<OrderDTO>> showOrders(){
-        return orderClient.showOrders();
+    public String showOrders(Model model) {
+        model.addAttribute("orders", orderClient.showOrders().getBody());
+        model.addAttribute("statuses", OrderStatusType.values());
+        return "orders_all";
     }
-//    public String showOrders() {
-//        return orderClient.showOrders();
-//    }
 
-    @PutMapping("/change-status")
-    public ResponseEntity<Boolean> changeOrderStatus(@RequestParam Long orderId, @RequestParam Long statusId) {
-        return orderClient.changeOrderStatus(orderId, statusId);
+    @PostMapping("/changeStatus")
+    public String changeOrderStatus(@RequestParam Long orderId, @RequestParam Long statusId, RedirectAttributes redirectAttributes) {
+        //OrderDTO order = orderClient.viewSingleOrder(orderId).getBody();
+//        if(order.getStatus().getName().equalsIgnoreCase("DELIVERED")){
+//            order.setOrderDeliveryDateTime(LocalDateTime.now());
+//        }
+        orderClient.changeOrderStatus(orderId, statusId);
+        return "redirect:/orders/show";
     }
 
     @GetMapping("/show/{id}")
-    public ResponseEntity<?> viewSingleOrder(@PathVariable("id") Long orderId){
-        return orderClient.viewSingleOrder(orderId);
+    public String viewSingleOrder(@PathVariable Long id, Model model) {
+        model.addAttribute("order", orderClient.viewSingleOrder(id).getBody());
+        return "orders_single";
     }
-//    public String viewSingleOrder(@PathVariable("id") Long orderId) {
-//        return orderClient.viewSingleOrder(orderId);
-//    }
 }

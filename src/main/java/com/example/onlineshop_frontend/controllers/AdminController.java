@@ -4,31 +4,27 @@ import com.example.onlineshop_frontend.clients.AdminClient;
 import com.example.onlineshop_frontend.dto.EmployeeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@RestController
+@Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminController {
     private final AdminClient adminClient;
-    @GetMapping("/show-employees")
-    public ResponseEntity<List<EmployeeDTO>> showEmployees(){
-        return adminClient.showEmployees();
+
+    @GetMapping("/showEmployees")
+    public String showEmployees(Model model){
+        ResponseEntity<List<EmployeeDTO>> employeesList = adminClient.showEmployees();
+        model.addAttribute("employees", employeesList.getBody());
+        return "employees_all";
     }
 
-    @PutMapping("/enable-employee/{id}")
-    public ResponseEntity<Boolean> enableEmployee(@PathVariable("id") Long employeeId){
-        return adminClient.enableEmployee(employeeId);
-    }
-
-    @PutMapping("/disable-employee/{id}")
-    public ResponseEntity<Boolean> disableEmployee(@PathVariable("id") Long employeeId){
-        return adminClient.disableEmployee(employeeId);
-    }
-
-    @PutMapping("/update-salary/{id}")
-    public ResponseEntity<Boolean> updateEmployeeSalary(@PathVariable("id") Long id, @RequestParam("salary") String salary){
-        return adminClient.updateEmployeeSalary(id, salary);
+    @PostMapping("/updateEmployeeSalary")
+    public String updateEmployeeSalary(@RequestParam Long employeeId, @RequestParam String salary){
+        ResponseEntity<Boolean> booleanResponseEntity = adminClient.updateEmployeeSalary(employeeId, salary);
+        return "redirect:/admin/showEmployees";
     }
 }

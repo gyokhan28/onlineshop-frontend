@@ -1,7 +1,6 @@
 package com.example.onlineshop_frontend.clients;
 
 import com.example.onlineshop_frontend.dto.OrderDTO;
-import com.example.onlineshop_frontend.dto.OrderResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,7 @@ public interface OrderClient {
     ResponseEntity<Boolean> changeOrderStatus(@RequestParam Long orderId, @RequestParam Long statusId);
 
     @GetMapping("/show/{id}")
-        ResponseEntity<?> viewSingleOrder(@PathVariable("id") Long orderId);
+        ResponseEntity<OrderDTO> viewSingleOrder(@PathVariable("id") Long orderId);
 
 
 }
