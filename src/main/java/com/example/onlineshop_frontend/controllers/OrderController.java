@@ -42,6 +42,7 @@ public class OrderController {
     @GetMapping("/show/{id}")
     public String viewSingleOrder(@PathVariable Long id, Model model) {
         model.addAttribute("order", orderClient.viewSingleOrder(id).getBody());
+        model.addAttribute("statuses", OrderStatusType.values());
         return "orders_single";
     }
 }

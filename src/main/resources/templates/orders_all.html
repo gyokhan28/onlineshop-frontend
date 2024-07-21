@@ -8,16 +8,17 @@
 <body class="d-flex flex-column min-vh-100">
 
 <div class="col-7 container flex-grow-1 mt-6 mb-6">
+    <h1> Всички поръчки </h1>
     <div class="row justify-content-center">
         <table class="table table-hover">
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Username(id)</th>
-                <th scope="col">Order date</th>
-                <th scope="col" style="width: 200px;">Products</th>
-                <th scope="col">Price</th>
-                <th scope="col" style="width: 140px;">Status</th>
+                <th scope="col">Потребителско име(id)</th>
+                <th scope="col">Дата на поръчката</th>
+                <th scope="col" style="width: 200px;">Продукти</th>
+                <th scope="col">Цена</th>
+                <th scope="col" style="width: 140px;">Статус</th>
                 <th scope="col" style="width: 150px;"></th>
                 <th scope="col" style="width: 150px;"></th>
             </tr>
@@ -51,10 +52,10 @@
                     </select>
                 </td>
                 <td>
-                   <button type="submit" class="btn btn-primary" style="margin-right: 5px;">Save status</button>
+                   <button type="submit" class="btn btn-primary" style="margin-right: 5px;">Запази статус</button>
                     </td>
                         <td>
-                    <a th:href="@{'/orders/show/' + ${order.id}}" class="btn btn-primary">Show details</a>
+                    <a th:href="@{'/orders/show/' + ${order.id}}" class="btn btn-primary">Детайли</a>
                 </td>
                     </form>
                 </span>

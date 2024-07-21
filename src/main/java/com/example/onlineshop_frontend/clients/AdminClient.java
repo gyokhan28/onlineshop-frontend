@@ -11,13 +11,6 @@ import java.util.List;
 public interface AdminClient {
     @GetMapping("/show-employees")
     public ResponseEntity<List<EmployeeDTO>> showEmployees();
-
-    @PutMapping("/enable-employee/{id}")
-    public ResponseEntity<Boolean> enableEmployee(@PathVariable("id") Long employeeId);
-
-    @PutMapping("/disable-employee/{id}")
-    public ResponseEntity<Boolean> disableEmployee(@PathVariable("id") Long employeeId);
-
-    @PutMapping("/update-salary/{id}")
-    public ResponseEntity<Boolean> updateEmployeeSalary(@PathVariable("id") Long id, @RequestParam("salary") String salary);
+    @PutMapping("/update-employee/{id}")
+    public ResponseEntity<Boolean> updateEmployee(@PathVariable("id") Long id, @RequestParam("isEnabled") boolean isEnabled, @RequestParam("salary") String salary);
 }
