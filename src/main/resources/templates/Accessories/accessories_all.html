@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments/head.html(title='Accessories')}">
+    <style>
+        html, body {
+          height: 100%;
+          margin: 0;
+      }
+      body {
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+      }
+      .content {
+          flex: 1;
+      }
+      .footer {
+          flex-shrink: 0;
+      }
+    </style>
+</head>
+<body>
+<nav th:insert="~{fragments/navbar.html}"></nav>
+
+<div class="content">
+    <div class="container flex-grow-1 mt-7 mb-7">
+        <h1> Всички аксесоари </h1>
+        <hr/>
+        <div class="row justify-content-center">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Име</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col">Количество</th>
+                    <th scope="col">Изображение</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="accessory : ${allAccessories.body}">
+                    <td th:text="${accessory.id}"></td>
+                    <td th:text="${accessory.name}"></td>
+                    <td th:text="${accessory.price}"></td>
+                    <td th:text="${accessory.quantity}"></td>
+                    <td>
+                        <img th:src="${accessory.imageLocation}" alt="Image not found" width="100"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="footer" th:replace="~{fragments/footer.html}"></div>
+</body>
+</html>
