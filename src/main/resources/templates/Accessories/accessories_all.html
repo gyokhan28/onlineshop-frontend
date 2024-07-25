@@ -27,6 +27,9 @@
     <div class="container flex-grow-1 mt-7 mb-7">
         <h1> Всички аксесоари </h1>
         <hr/>
+        <form action="/accessories/create" method="get">
+            <button type="submit" class="btn btn-primary">Добави аксесоар</button>
+        </form>
         <div class="row justify-content-center">
             <table class="table table-hover">
                 <thead>
@@ -49,8 +52,7 @@
                         <img th:src="${accessory.imageLocation}" alt="Image not found" width="100"/>
                     </td>
                     <td>
-                        <form th:action="@{'/accessories/delete/' + ${accessory.id}}" method="post"
-                              th:attr="onsubmit='return confirm(\'Сигурни ли сте, че искате да изтриете Аксесоар с име: ' + ${accessory.name} + '?\');'">
+                        <form th:action="@{'/accessories/delete/' + ${accessory.id}}" method="post">
                             <button type="submit" class="btn btn-danger">Изтрий</button>
                         </form>
                     </td>

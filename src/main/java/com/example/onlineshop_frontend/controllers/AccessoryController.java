@@ -39,7 +39,6 @@ public class AccessoryController {
     }
     @PostMapping("/create/submit")
     ModelAndView submitAccessory(ProductRequestDto requestDto) {
-    System.err.println(requestDto.toString());
     accessoryClient.addNewAccessory(requestDto);
       return new ModelAndView("redirect:/accessories/show");
   }
