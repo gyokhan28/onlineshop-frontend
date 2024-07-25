@@ -15,29 +15,27 @@
             <form th:action="@{/accessories/create/submit}" th:object="${requestDto}" method="post">
                 <div>
                     <label for="name">Name:</label>
-                    <input type="text" id="name" th:field="*{name}" />
+                    <input type="text" id="name" th:field="*{name}"/>
                 </div>
                 <div>
                     <label for="price">Price:</label>
-                    <input type="text" id="price" th:field="*{price}" />
+                    <input type="text" id="price" th:field="*{price}" pattern="^\d+(\.\d{1,2})?$" required/>
                 </div>
                 <div>
                     <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" th:field="*{quantity}" />
+                    <input type="number" id="quantity" th:field="*{quantity}"/>
                 </div>
                 <div>
                     <label for="imageLocation">Image Location:</label>
-                    <input type="text" id="imageLocation" th:field="*{imageLocation}" />
+                    <input type="text" id="imageLocation" th:field="*{imageLocation}"/>
                 </div>
                 <div>
-                    <label for="brand">Brand:</label>
-                    <select id="brand" th:field="*{brand}">
+                    <select id="brand" th:field="*{brand.id}" required>
                         <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
                     </select>
                 </div>
                 <div>
-                    <label for="color">Color:</label>
-                    <select id="color" th:field="*{color}">
+                    <select id="color" th:field="*{color.id}" required>
                         <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}"></option>
                     </select>
                 </div>

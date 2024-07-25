@@ -2,8 +2,8 @@ package com.example.onlineshop_frontend.controllers;
 
 import com.example.onlineshop_frontend.clients.AccessoryClient;
 import com.example.onlineshop_frontend.clients.BrandClient;
-import com.example.onlineshop_frontend.dto.ProductRequestDto;
-import com.example.onlineshop_frontend.dto.ProductResponseDto;
+import com.example.onlineshop_frontend.dto.*;
+
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,14 +30,17 @@ public class AccessoryController {
 
   @GetMapping("/create")
   String createAccessory(Model model) {
-    model.addAttribute("brands", brandClient.getAllBrand());
-    model.addAttribute("colors", brandClient.getAllColors());
-    model.addAttribute("requestDto",  new ProductRequestDto());
+    List<Brand> brands = brandClient.getAllBrand();
+    List<Color> colors = brandClient.getAllColors();
+    model.addAttribute("brands", brands);
+    model.addAttribute("colors", colors);
+    model.addAttribute("requestDto", new ProductRequestDto());
     return "Accessories/create";
     }
     @PostMapping("/create/submit")
-    ModelAndView submitAccessory(ProductRequestDto dto) {
-    accessoryClient.addNewAccessory(dto);
+    ModelAndView submitAccessory(ProductRequestDto requestDto) {
+    System.err.println(requestDto.toString());
+    accessoryClient.addNewAccessory(requestDto);
       return new ModelAndView("redirect:/accessories/show");
   }
 
