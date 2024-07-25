@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments/head.html(title='Create Accessory')}">
+</head>
+<body>
+<nav th:insert="~{fragments/navbar.html}"></nav>
+
+<div class="content">
+    <div class="container flex-grow-1 mt-7 mb-7">
+        <h1> Създай Aксесоар </h1>
+        <hr/>
+        <div class="row justify-content-center">
+            <body>
+            <form th:action="@{/accessories/create/submit}" th:object="${requestDto}" method="post">
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" th:field="*{name}" />
+                </div>
+                <div>
+                    <label for="price">Price:</label>
+                    <input type="text" id="price" th:field="*{price}" />
+                </div>
+                <div>
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" th:field="*{quantity}" />
+                </div>
+                <div>
+                    <label for="imageLocation">Image Location:</label>
+                    <input type="text" id="imageLocation" th:field="*{imageLocation}" />
+                </div>
+                <div>
+                    <label for="brand">Brand:</label>
+                    <select id="brand" th:field="*{brand}">
+                        <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
+                    </select>
+                </div>
+                <div>
+                    <label for="color">Color:</label>
+                    <select id="color" th:field="*{color}">
+                        <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}"></option>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit">Create</button>
+                </div>
+            </form>
+            </body>
+        </div>
+    </div>
+</div>
+
+<div class="footer" th:replace="~{fragments/footer.html}"></div>
+</body>
+</html>

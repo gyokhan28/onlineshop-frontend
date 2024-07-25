@@ -49,8 +49,7 @@
                         <img th:src="${accessory.imageLocation}" alt="Image not found" width="100"/>
                     </td>
                     <td>
-                        <!-- Форма за изтриване -->
-                        <form th:action="@{'/delete/' + ${accessory.id}}" method="post"
+                        <form th:action="@{'/accessories/delete/' + ${accessory.id}}" method="post"
                               th:attr="onsubmit='return confirm(\'Сигурни ли сте, че искате да изтриете Аксесоар с име: ' + ${accessory.name} + '?\');'">
                             <button type="submit" class="btn btn-danger">Изтрий</button>
                         </form>

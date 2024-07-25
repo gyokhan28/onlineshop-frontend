@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "onlineshop-api-accessories", url = "http://localhost:8082/accessories")
 public interface AccessoryClient {
 
-
     @GetMapping("/show")
      ResponseEntity<List<ProductResponseDto>> showAllAccessory() ;
+
+    @GetMapping("show/{id}")
+    ProductResponseDto getAccessoriesById(@PathVariable(name = "id") Long id);
 
     @PostMapping("/add")
      ResponseEntity<ProductResponseDto> addNewAccessory(
