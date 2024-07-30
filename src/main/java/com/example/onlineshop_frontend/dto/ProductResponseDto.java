@@ -10,4 +10,6 @@ public class ProductResponseDto {
   private BigDecimal price;
   private int quantity;
   private String imageLocation;
+  private Color color;
+  private Brand brand;
 }

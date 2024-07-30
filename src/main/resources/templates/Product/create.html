@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head.html(title='Create Product')}">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-container {
+            margin-top: 50px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+<nav th:insert="~{fragments/navbar.html}"></nav>
+
+<div class="container form-container">
+    <h1 class="text-center">Create Product</h1>
+    <form th:action="@{/products/create/submit}" method="post" th:object="${productCreationRequestDto}">
+        <div class="form-group">
+            <label for="productType">Product Type:</label>
+            <select id="productType" class="form-control" name="productType" required>
+                <option value="" disabled selected>Select a product type</option>
+                <option value="Accessory">Accessory</option>
+            </select>
+        </div>
+
+        <!-- Common Fields -->
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" class="form-control" th:field="*{productRequestDto.name}" required />
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" id="price" class="form-control" th:field="*{productRequestDto.price}" step="0.01" min="0.01" required />
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" class="form-control" th:field="*{productRequestDto.quantity}" step="1" min="1" required />
+        </div>
+        <div class="form-group">
+            <label for="imageLocation">Image Location:</label>
+            <input type="text" id="imageLocation" class="form-control" th:field="*{productRequestDto.imageLocation}" />
+        </div>
+
+        <!-- Accessory Specific Fields -->
+        <div id="accessoryFields" class="d-none">
+            <div class="form-group">
+                <label for="brand">Brand:</label>
+                <select id="brand" class="form-control" th:field="*{productRequestDto.brand.id}" required>
+                    <option value="" disabled selected>Select a brand</option>
+                    <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="color">Color:</label>
+                <select id="color" class="form-control" th:field="*{productRequestDto.color.id}" required>
+                    <option value="" disabled selected>Select a color</option>
+                    <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}"></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary btn-submit">Create</button>
+        </div>
+    </form>
+</div>
+
+<div class="footer" th:replace="~{fragments/footer.html}"></div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#productType').change(function() {
+            var selectedType = $(this).val();
+            if (selectedType === 'Accessory') {
+                $('#accessoryFields').removeClass('d-none');
+            } else {
+                $('#accessoryFields').addClass('d-none');
+            }
+        });
+    });
+</script>
+</body>
+</html>

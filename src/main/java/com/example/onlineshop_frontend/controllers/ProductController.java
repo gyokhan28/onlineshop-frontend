@@ -1,6 +1,6 @@
 package com.example.onlineshop_frontend.controllers;
 
-import com.example.onlineshop_frontend.clients.AccessoryClient;
+import com.example.onlineshop_frontend.clients.ProductClient;
 import com.example.onlineshop_frontend.clients.BrandClient;
 import com.example.onlineshop_frontend.dto.*;
 
@@ -14,34 +14,32 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/accessories")
+@RequestMapping("/products")
 @RequiredArgsConstructor
-public class AccessoryController {
+public class ProductController {
 
-  private final AccessoryClient accessoryClient;
+  private final ProductClient productClient;
   private final BrandClient brandClient;
 
   @GetMapping("/show")
   public String showAllAccessories(Model model) {
-    ResponseEntity<List<ProductResponseDto>> allAccessories = accessoryClient.showAllAccessory();
-    model.addAttribute("allAccessories", allAccessories);
-    return "Accessories/accessories_all";
+    ResponseEntity<List<ProductResponseDto>> allProducts = productClient.getAll();
+    model.addAttribute("allProducts", allProducts);
+    return "Product/products_all";
+  }
+  @GetMapping("/create")
+  public String showCreateForm(Model model) {
+    model.addAttribute("productCreationRequestDto", new ProductCreationRequestDto());
+    model.addAttribute("brands", brandClient.getAllBrand());
+    model.addAttribute("colors", brandClient.getAllColors());
+    return "Product/create";
+  }
+    @PostMapping("/create/submit")
+    ModelAndView submitAccessory(ProductCreationRequestDto requestDto) {
+    productClient.create(requestDto);
+      return new ModelAndView("redirect:/products/show");
   }
 
-  @GetMapping("/create")
-  String createAccessory(Model model) {
-    List<Brand> brands = brandClient.getAllBrand();
-    List<Color> colors = brandClient.getAllColors();
-    model.addAttribute("brands", brands);
-    model.addAttribute("colors", colors);
-    model.addAttribute("requestDto", new ProductRequestDto());
-    return "Accessories/create";
-    }
-    @PostMapping("/create/submit")
-    ModelAndView submitAccessory(ProductRequestDto requestDto) {
-    accessoryClient.addNewAccessory(requestDto);
-      return new ModelAndView("redirect:/accessories/show");
-  }
 
 //  @GetMapping("/edit/{id}")
 //  String editAccessory(@PathVariable(name = "id") Long id, Model model) {
@@ -53,7 +51,7 @@ public class AccessoryController {
   @PostMapping("/delete/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public ModelAndView deleteAccessory(@PathVariable("id") Long id) {
-    accessoryClient.deleteAccessory(id);
+    productClient.deleteAccessory(id);
     return new ModelAndView("redirect:/accessories/show");
   }
 }
