@@ -1,7 +1,6 @@
 package com.example.onlineshop_frontend.clients;
 
 import com.example.onlineshop_frontend.dto.ProductCreationRequestDto;
-import com.example.onlineshop_frontend.dto.ProductRequestDto;
 import com.example.onlineshop_frontend.dto.ProductResponseDto;
 import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -16,7 +15,7 @@ public interface ProductClient {
   public ResponseEntity<List<ProductResponseDto>> getAll();
 
   @GetMapping("show/{id}")
-  ProductResponseDto getAccessoriesById(@PathVariable(name = "id") Long id);
+  ProductResponseDto getProductById(@PathVariable(name = "id") Long id);
 
   @PostMapping("/add")
   public ResponseEntity<ProductResponseDto> create(
@@ -24,7 +23,7 @@ public interface ProductClient {
 
   @PutMapping("/update/{id}")
   public ResponseEntity<ProductResponseDto> update(
-      @RequestBody ProductRequestDto requestDto, @PathVariable("id") Long id);
+      @RequestBody ProductCreationRequestDto requestDto, @PathVariable("id") Long id);
 
   @DeleteMapping("/delete/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)

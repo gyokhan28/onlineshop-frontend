@@ -35,18 +35,24 @@ public class ProductController {
     return "Product/create";
   }
     @PostMapping("/create/submit")
-    ModelAndView submitAccessory(ProductCreationRequestDto requestDto) {
+    ModelAndView submit(ProductCreationRequestDto requestDto) {
     productClient.create(requestDto);
       return new ModelAndView("redirect:/products/show");
   }
 
 
-//  @GetMapping("/edit/{id}")
-//  String editAccessory(@PathVariable(name = "id") Long id, Model model) {
-//    Accessory existingCarton = accessoryClient.(id);
-//    model.addAttribute(CARTONTXT, existingCarton);
-//    return "Carton/edit";
-//  }
+  @GetMapping("/edit/{id}")
+  String editProduct(@PathVariable(name = "id") Long id, Model model) {
+    model.addAttribute("productForUpdate",productClient.getProductById(id));
+    model.addAttribute("brands", brandClient.getAllBrand());
+    model.addAttribute("colors", brandClient.getAllColors());
+    return "Product/edit";
+  }
+  @PostMapping("/edit/submit")
+  ModelAndView submitEditedProduct(ProductCreationRequestDto requestDto,Long id) {
+    productClient.update(requestDto,id);
+    return new ModelAndView("redirect:/products/show");
+  }
 
   @PostMapping("/delete/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -22,25 +22,32 @@
             <select id="productType" class="form-control" name="productType" required>
                 <option value="" disabled selected>Select a product type</option>
                 <option value="Accessory">Accessory</option>
+                <option value="Decoration">Decoration</option>
+                <option value="Drink">Drink</option>
+                <option value="Food">Food</option>
+                <option value="Others">Others</option>
+                <option value="Railing">Railing</option>
+                <option value="Sanitary">Sanitary</option>
             </select>
         </div>
-
         <!-- Common Fields -->
         <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" id="name" class="form-control" th:field="*{productRequestDto.name}" required />
+            <input type="text" id="name" class="form-control" th:field="*{productRequestDto.name}" required/>
         </div>
         <div class="form-group">
             <label for="price">Price:</label>
-            <input type="number" id="price" class="form-control" th:field="*{productRequestDto.price}" step="0.01" min="0.01" required />
+            <input type="number" id="price" class="form-control" th:field="*{productRequestDto.price}" step="0.01"
+                   min="0.01" required/>
         </div>
         <div class="form-group">
             <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" class="form-control" th:field="*{productRequestDto.quantity}" step="1" min="1" required />
+            <input type="number" id="quantity" class="form-control" th:field="*{productRequestDto.quantity}" step="1"
+                   min="1" required/>
         </div>
         <div class="form-group">
             <label for="imageLocation">Image Location:</label>
-            <input type="text" id="imageLocation" class="form-control" th:field="*{productRequestDto.imageLocation}" />
+            <input type="text" id="imageLocation" class="form-control" th:field="*{productRequestDto.imageLocation}"/>
         </div>
 
         <!-- Accessory Specific Fields -->
