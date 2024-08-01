@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head.html(title='Index page')}">
+    <title>Marketplace</title>
+</head>
+<nav th:replace="~{fragments/navbar.html}"></nav>
+<body class="d-flex flex-column min-vh-100">
+<div class="col-6 container flex-grow-1 text-center">
+
+    <h1>Marketplace</h1>
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="photo1.jpg" class="d-block w-100" alt="photo1">
+            </div>
+            <div class="carousel-item">
+                <img src="photo2.jpg" class="d-block w-100" alt="photo2">
+            </div>
+            <div class="carousel-item">
+                <img src="photo3.jpg" class="d-block w-100" alt="photo3">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<div th:replace="~{fragments/footer.html}"></div>
+</html>

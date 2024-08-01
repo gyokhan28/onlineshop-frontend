@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head th:replace="~{fragments/head.html(title='Order')}"></head>
+<nav th:insert="~{fragments/navbar.html}"></nav>
+
+
+<body class="d-flex flex-column min-vh-100">
+
+<div class="col-4 container flex-grow-1 mt-6 mb-6">
+    <div class="row justify-content-center">
+        <p class="fw-normal lead">Details for Order ID: <span class="text-primary" th:text="${id}"></span>
+
+        <hr class="my-4">
+
+        <p class="fw-normal lead">Username: <span class="text-primary" th:text="${order.user.username}"></span>
+        <p class="fw-normal lead">Name: <span class="text-primary"
+                                              th:text="${order.user.firstName + ' ' + order.user.lastName}"></span>
+        <p class="fw-normal lead">Email: <span class="text-primary" th:text="${order.user.email}"></span>
+        <p class="fw-normal lead">Phone: <span class="text-primary" th:text="${order.user.phoneNumber != '' ? order.user.phoneNumber : 'N/A'}"></span></p>
+<!--        <p class="fw-normal lead">Delivery address: <span class="text-primary" th:text="${order.user.address.city.name + ', ' + order.user.address.streetName}"></span>-->
+<!--        <p class="fw-normal lead">Additional Information: <span class="text-primary" th:text="${order.user.address.additionalInformation}"></span>-->
+
+        <hr class="my-4">
+
+        <!--Keeping this for reference -->
+        <!--        <p class="fw-normal lead">Order date: <span class="text-primary" th:text="${order.orderDateTime}"></span></p>-->
+
+        <p class="fw-normal lead">
+            Order date:
+            <span class="text-primary">
+                <span th:text="${#temporals.format(order.orderDateTime, 'dd MMMM yyyy')}"></span>
+                <span th:text="${#temporals.format(order.orderDateTime, 'HH:mm')}"></span>
+            </span>
+        </p>
+
+<!--        <p class="fw-normal lead" sec:authorize="hasRole('ROLE_USER')">STATUS: <span class="text-primary ms-2" th:text="${order.status.name}"></span>-->
+<!--            <span th:if="${order.status.name == 'CANCELLED'}">-->
+<!--                <span class="text-danger" th:if="${order.orderCancelDateTime != null}" th:text="'(' + ${#temporals.format(order.orderCancelDateTime, 'yyyy-MM-dd HH:mm:ss')} + ')'"></span>-->
+<!--                <span class="text-danger" th:if="${order.orderCancelDateTime == null}">CANCELLED</span>-->
+<!--            </span>-->
+<!--            <span th:if="${order.status.name == 'DELIVERED'}">-->
+<!--                <span class="text-success" th:if="${order.orderDeliveryDateTime != null}" th:text="'(' + ${#temporals.format(order.orderDeliveryDateTime, 'yyyy-MM-dd HH:mm:ss')} + ')'"></span>-->
+<!--                <span class="text-success" th:if="${order.orderDeliveryDateTime == null}">DELIVERED</span>-->
+<!--            </span>-->
+<!--        </p>-->
+
+        <div class="d-flex align-items-center" sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_EMPLOYEE')">
+            <p class="fw-normal lead">STATUS: </p>
+            <form th:action="@{/orders/changeStatus}" method="post" class="ms-3" id="changeStatusForm">
+                <input type="hidden" name="orderId" th:value="${order.id}">
+                <select class="form-select me-2" name="statusId">
+                    <option th:each="status : ${statuses}" th:if="${status.name != 'BASKET'}"
+                            th:text="${status.name}"
+                            th:value="${status.id}"
+                            th:selected="${status.id == order.status.id}"></option>
+                </select>
+            </form>
+            <button type="submit" form="changeStatusForm" class="btn btn-primary me-2">Save status</button>
+        </div>
+
+        <hr class="my-4">
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Ordered quantity</th>
+                    <th scope="col">Price (when ordered)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="orderProduct : ${products}">
+
+                    <td>
+                        <a th:href="@{'/products/show/' + ${orderProduct.id}}" th:text="${orderProduct.name}"></a>
+                    </td>
+
+                    <td th:text="${orderProduct.quantity}"></td>
+
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><strong>Total price:</strong></td>
+                    <td th:text="${order.order.price}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+<div th:replace="~{fragments/footer.html}"></div>
+</html>
