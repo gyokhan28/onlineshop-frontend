@@ -14,7 +14,7 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Потребителско име(id)</th>
+                <th scope="col">Потребителско име</th>
                 <th scope="col">Дата на поръчката</th>
                 <th scope="col" style="width: 200px;">Продукти</th>
                 <th scope="col">Цена</th>
@@ -28,15 +28,13 @@
             </div>
             <tbody>
             <tr th:each="order : ${orders}">
-                <span th:unless="${order.status.name == 'BASKET'}">
+                <span th:unless="${order.status == 'BASKET'}">
                 <td th:text="${order.id}"></td>
-                <td th:text="${order.user.username} + '(' + ${order.user.id} +')'"></td>
+                <td th:text="${order.userResponseDto.username}"></td>
                 <td th:text="${order.orderDateTime}"></td>
                 <td>
-                    <span th:each="orderProduct : ${orderProducts}">
-                        <span th:if="${orderProduct.order.id == order.id}">
-                            <span th:text="${orderProduct.product.name} + ' x' + ${orderProduct.quantity} + ', '"></span>
-                        </span>
+                    <span th:each="orderProduct : ${order.orderProducts}">
+                        <li> <span th:text="${orderProduct.quantity} + ' * ' + ${orderProduct.productName}"></span></li>
                     </span>
                 </td>
                 <td th:text="${order.price}"></td>
@@ -48,7 +46,7 @@
                                 th:if="${status.name != 'BASKET'}"
                                 th:text="${status.name}"
                                 th:value="${status.id}"
-                                th:selected="${status.id == order.status.id}"></option>
+                                th:selected="${status.name == order.status}"></option>
                     </select>
                 </td>
                 <td>

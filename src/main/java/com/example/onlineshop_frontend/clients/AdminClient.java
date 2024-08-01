@@ -12,5 +12,5 @@ public interface AdminClient {
     @GetMapping("/show-employees")
     public ResponseEntity<List<EmployeeDTO>> showEmployees();
     @PutMapping("/update-employee/{id}")
-    public ResponseEntity<Boolean> updateEmployee(@PathVariable("id") Long id, @RequestParam("isEnabled") boolean isEnabled, @RequestParam("salary") String salary);
+    public ResponseEntity<String> updateEmployee(@PathVariable("id") Long id, @RequestParam("isEnabled") boolean isEnabled, @RequestParam("salary") String salary);
 }

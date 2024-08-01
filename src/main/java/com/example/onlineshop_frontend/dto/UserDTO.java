@@ -24,5 +24,4 @@ public class UserDTO {
     private AddressDTO address;
     private String phoneNumber;
     private boolean isEnabled;
-    private RoleDTO role;
 }

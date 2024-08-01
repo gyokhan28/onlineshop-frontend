@@ -24,7 +24,7 @@ public class AdminController {
 
     @PostMapping("/updateEmployee")
     public String updateEmployee(@RequestParam Long employeeId, @RequestParam boolean employeeStatus, @RequestParam String salary){
-        ResponseEntity<Boolean> booleanResponseEntity = adminClient.updateEmployee(employeeId, employeeStatus, salary);
+        ResponseEntity<String> booleanResponseEntity = adminClient.updateEmployee(employeeId, employeeStatus, salary);
         return "redirect:/admin/showEmployees";
     }
 }
