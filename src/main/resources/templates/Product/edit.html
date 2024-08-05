@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head.html(title='Edit Product')}">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-container {
+            margin-top: 50px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+<nav th:insert="~{fragments/navbar.html}"></nav>
+
+<div class="container form-container">
+    <h1 class="text-center">Edit Product</h1>
+    <form th:action="@{/products/edit/submit}" method="post">
+        <!-- Hidden input for the product ID -->
+        <input type="hidden" name="id" th:value="${productForUpdate.id}"/>
+
+        <!-- Hidden input for the productType -->
+        <input type="hidden" id="productType" name="productType" th:value="${productType}"/>
+
+        <div class="form-group">
+            <label for="productTypeSelect">Product Type:</label>
+            <select id="productTypeSelect" class="form-control" name="productType" required>
+                <option value="" disabled>Select a product type</option>
+                <option value="Accessory" th:selected="${productType == 'Accessory'}">Accessory</option>
+                <option value="Decoration" th:selected="${productType == 'Decoration'}">Decoration</option>
+                <option value="Drink" th:selected="${productType == 'Drink'}">Drink</option>
+                <option value="Food" th:selected="${productType == 'Food'}">Food</option>
+                <option value="Others" th:selected="${productType == 'Others'}">Others</option>
+                <option value="Railing" th:selected="${productType == 'Railing'}">Railing</option>
+                <option value="Sanitary" th:selected="${productType == 'Sanitary'}">Sanitary</option>
+            </select>
+        </div>
+
+        <!-- Common Fields -->
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" class="form-control" name="productRequestDto.name"
+                   th:value="${productForUpdate.name}" required/>
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" id="price" class="form-control" name="productRequestDto.price"
+                   th:value="${productForUpdate.price}" step="0.01" min="0.01" required/>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" class="form-control" name="productRequestDto.quantity"
+                   th:value="${productForUpdate.quantity}" step="1" min="1" required/>
+        </div>
+        <div class="form-group">
+            <label for="imageLocation">Image Location:</label>
+            <input type="text" id="imageLocation" class="form-control" name="productRequestDto.imageLocation"
+                   th:value="${productForUpdate.imageLocation}"/>
+        </div>
+
+        <!-- Accessory Specific Fields -->
+        <div id="accessoryFields" class="d-none">
+            <div class="form-group">
+                <label for="brand">Brand:</label>
+                <select id="brand" class="form-control" name="productRequestDto.brand.id" required>
+                    <option value="" disabled selected>Select a brand</option>
+                    <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"
+                            th:selected="${productForUpdate.brand != null && productForUpdate.brand.id == brand.id}"></option>
+                </select>
+                <!-- Optional: Add a message if the field is required -->
+                <div class="invalid-feedback">
+                    Please select a brand.
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="color">Color:</label>
+                <select id="color" class="form-control" name="productRequestDto.color.id" required>
+                    <option value="" disabled selected>Select a color</option>
+                    <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}"
+                            th:selected="${productForUpdate.color != null && productForUpdate.color.id == color.id}"></option>
+                </select>
+                <!-- Optional: Add a message if the field is required -->
+                <div class="invalid-feedback">
+                    Please select a color.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary btn-submit">Update</button>
+        </div>
+    </form>
+</div>
+
+<div class="footer" th:replace="~{fragments/footer.html}"></div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Show or hide fields based on selected product type
+        $('#productTypeSelect').change(function() {
+            var selectedType = $(this).val();
+            if (selectedType === 'Accessory') {
+                $('#accessoryFields').removeClass('d-none');
+            } else {
+                $('#accessoryFields').addClass('d-none');
+            }
+        });
+
+        // Trigger change event on page load to handle initial state
+        $('#productTypeSelect').trigger('change');
+    });
+</script>
+</body>
+</html>

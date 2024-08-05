@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head th:replace="~{fragments/head.html(title='Employees')}"></head>
+<nav th:insert="~{fragments/navbar.html}"></nav>
+
+
+<body class="d-flex flex-column min-vh-100">
+<div class="col-8 container flex-grow-1 mt-7 mb-7">
+    <h1> Всички служители </h1>
+    </hr>
+    <div class="row justify-content-center">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Потребителско име</th>
+                <th scope="col">Име</th>
+                <th scope="col">Фамилия</th>
+                <th scope="col">E-mail</th>
+                <th scope="col" style="width: 140px;">Заплата</th>
+                <th scope="col" style="width: 150px;">Статус</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="employee : ${employees}" th:class="${employee.salary == null} ? 'table-danger' : ''">
+                <td th:text="${employee.id}"></td>
+                <td th:text="${employee.username}"></td>
+                <td th:text="${employee.firstName}"></td>
+                <td th:text="${employee.lastName}"></td>
+                <td th:text="${employee.email}"></td>
+                <form th:action="@{/admin/updateEmployee}" method="post">
+                    <input type="hidden" name="employeeId" th:value="${employee.id}" />
+                    <td>
+                        <input type="number" name="salary" th:if="${employee.salary != null}" th:value="${employee.salary}" placeholder="Въведи заплата" />
+                        <input type="number" th:if="${employee.salary == null}" name="salary" placeholder="Въведи заплата" />
+
+                    </td>
+                    <td style="position: relative;">
+                        <select name="employeeStatus">
+                            <option value="true" th:selected="${employee.isEnabled} == true">Активиран</option>
+                            <option value="false" th:selected="${employee.isEnabled} == false">Деактивиран</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-success">Запази промените</button>
+                    </td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+<div th:replace="~{fragments/footer.html}"></div>
+</html>
