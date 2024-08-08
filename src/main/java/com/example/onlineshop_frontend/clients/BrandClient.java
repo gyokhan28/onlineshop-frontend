@@ -1,6 +1,7 @@
 package com.example.onlineshop_frontend.clients;
 import com.example.onlineshop_frontend.dto.Color;
 import com.example.onlineshop_frontend.dto.Brand;
+import com.example.onlineshop_frontend.dto.Material;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
@@ -13,4 +14,6 @@ public interface BrandClient {
 
   @GetMapping("/getAllColors")
    List<Color> getAllColors();
+  @GetMapping("/getAllMaterials")
+     List<Material> getAllMaterials();
 }

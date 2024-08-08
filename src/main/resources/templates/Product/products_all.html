@@ -57,6 +57,9 @@
                         <th scope="col">Изображение</th>
                         <th scope="col">Бранд</th>
                         <th scope="col">Цвят</th>
+                        <th scope="col">Материал</th>
+                        <th scope="col">Годно до</th>
+                        <th scope="col">Срок на годност</th>
                         <th scope="col">Действия</th>
                     </tr>
                     </thead>
@@ -74,6 +77,15 @@
                         <td th:unless="${product.brand != null}"></td>
                         <td th:if="${product.color != null}" th:text="${product.color.name}"></td>
                         <td th:unless="${product.color != null}"></td>
+                        <td th:if="${product.material != null}" th:text="${product.material.name}"></td>
+                        <td th:unless="${product.material != null}"></td>
+                        <td th:if="${product.bestBefore != null}"
+                            th:text="${#temporals.format(product.bestBefore, 'dd.MM.yyyy')}"></td>
+                        <td th:unless="${product.bestBefore != null}"></td>
+                        <td th:if="${product.expiryDate != null}"
+                            th:text="${#temporals.format(product.expiryDate, 'dd.MM.yyyy')}"></td>
+                        <td th:unless="${product.expiryDate != null}"></td>
+
 
                         <td>
                             <form th:action="@{'/products/delete/' + ${product.id}}" method="post" style="display:inline;">

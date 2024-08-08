@@ -27,30 +27,33 @@ public class ProductController {
     model.addAttribute("allProducts", allProducts);
     return "Product/products_all";
   }
+
   @GetMapping("/create")
   public String showCreateForm(Model model) {
     model.addAttribute("productCreationRequestDto", new ProductCreationRequestDto());
     model.addAttribute("brands", brandClient.getAllBrand());
     model.addAttribute("colors", brandClient.getAllColors());
+    model.addAttribute("materials", brandClient.getAllMaterials());
     return "Product/create";
   }
-    @PostMapping("/create/submit")
-    ModelAndView submit(ProductCreationRequestDto requestDto) {
+  @PostMapping("/create/submit")
+  ModelAndView submit(ProductCreationRequestDto requestDto) {
     productClient.create(requestDto);
-      return new ModelAndView("redirect:/products/show");
+    return new ModelAndView("redirect:/products/show");
   }
-
 
   @GetMapping("/edit/{id}")
   String editProduct(@PathVariable(name = "id") Long id, Model model) {
-    model.addAttribute("productForUpdate",productClient.getProductById(id));
+    model.addAttribute("productForUpdate", productClient.getProductById(id));
     model.addAttribute("brands", brandClient.getAllBrand());
     model.addAttribute("colors", brandClient.getAllColors());
+    model.addAttribute("materials", brandClient.getAllMaterials());
     return "Product/edit";
   }
+
   @PostMapping("/edit/submit")
-  ModelAndView submitEditedProduct(ProductCreationRequestDto requestDto,Long id) {
-    productClient.update(requestDto,id);
+  ModelAndView submitEditedProduct(ProductCreationRequestDto requestDto, Long id) {
+    productClient.update(requestDto, id);
     return new ModelAndView("redirect:/products/show");
   }
 
