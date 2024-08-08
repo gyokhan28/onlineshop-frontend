@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head.html(title='Products')}">
     <!-- Link to Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -28,6 +27,13 @@
         }
         .btn-primary {
             margin-bottom: 15px;
+        }
+        .status-icon {
+            font-size: 1.5em;
+            color: green;
+        }
+        .status-icon.cross {
+            color: red;
         }
     </style>
 </head>
@@ -60,6 +66,10 @@
                         <th scope="col">Материал</th>
                         <th scope="col">Годно до</th>
                         <th scope="col">Срок на годност</th>
+                        <th scope="col">Non-Slip Status</th>
+                        <th scope="col">Outdoor Status</th>
+                        <th scope="col">Biodegradable Status</th>
+                        <th scope="col">Reusable Status</th>
                         <th scope="col">Действия</th>
                     </tr>
                     </thead>
@@ -86,6 +96,25 @@
                             th:text="${#temporals.format(product.expiryDate, 'dd.MM.yyyy')}"></td>
                         <td th:unless="${product.expiryDate != null}"></td>
 
+                        <!-- Non-Slip Status -->
+                        <td th:if="${product.isNonSlip != null}">
+                            <span th:text="${product.isNonSlip ? 'Yes' : 'No'}"></span>
+                        </td>
+
+                        <!-- Outdoor Status -->
+                        <td th:if="${product.isOutdoor != null}">
+                            <span th:text="${product.isOutdoor ? 'Yes' : 'No'}"></span>
+                        </td>
+
+                        <!-- Biodegradable Status -->
+                        <td th:if="${product.isBiodegradable != null}">
+                            <span th:text="${product.isBiodegradable ? 'Yes' : 'No'}"></span>
+                        </td>
+
+                        <!-- Reusable Status -->
+                        <td th:if="${product.isReusable != null}">
+                            <span th:text="${product.isReusable ? 'Yes' : 'No'}"></span>
+                        </td>
 
                         <td>
                             <form th:action="@{'/products/delete/' + ${product.id}}" method="post" style="display:inline;">

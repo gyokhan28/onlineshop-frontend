@@ -25,8 +25,8 @@
                 <option value="Decoration">Decoration</option>
                 <option value="Drink">Drink</option>
                 <option value="Food">Food</option>
-                <option value="Others">Others</option>
                 <option value="Railing">Railing</option>
+                <option value="Others">Others</option>
                 <option value="Sanitary">Sanitary</option>
             </select>
         </div>
@@ -88,14 +88,85 @@
         <div id="drinkFields" class="d-none">
             <div class="form-group">
                 <label for="bestBefore">Best Before:</label>
-                <input type="date" id="bestBefore" class="form-control" th:field="*{productRequestDto.bestBefore}">
+                <input type="date" id="bestBefore" class="form-control" th:field="*{productRequestDto.bestBefore}"/>
             </div>
         </div>
         <!-- Food Specific Fields -->
         <div id="foodFields" class="d-none">
             <div class="form-group">
                 <label for="expiryDate">Expiry Date:</label>
-                <input type="date" id="expiryDate" class="form-control" th:field="*{productRequestDto.expiryDate}">
+                <input type="date" id="expiryDate" class="form-control" th:field="*{productRequestDto.expiryDate}"/>
+            </div>
+        </div>
+        <!-- Railing Specific Fields -->
+        <div id="railingFields" class="d-none">
+            <div class="form-group">
+                <label for="railingBrand">Brand:</label>
+                <select id="railingBrand" class="form-control" th:field="*{productRequestDto.brand.id}" required>
+                    <option value="" disabled selected>Select a brand</option>
+                    <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="railingMaterial">Material:</label>
+                <select id="railingMaterial" class="form-control" th:field="*{productRequestDto.material.id}" required>
+                    <option value="" disabled selected>Select a material</option>
+                    <option th:each="material : ${materials}" th:value="${material.id}" th:text="${material.name}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="railingColor">Color:</label>
+                <select id="railingColor" class="form-control" th:field="*{productRequestDto.color.id}" required>
+                    <option value="" disabled selected>Select a color</option>
+                    <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="isOutdoor">Is Outdoor:</label>
+                <input type="checkbox" id="isOutdoor" class="form-check-input" th:field="*{productRequestDto.Outdoor}"/>
+                <label class="form-check-label" for="isOutdoor"></label>
+            </div>
+            <div class="form-group">
+                <label for="isNonSlip">Is Non-Slip:</label>
+                <input type="checkbox" id="isNonSlip" class="form-check-input" th:field="*{productRequestDto.NonSlip}"/>
+                <label class="form-check-label" for="isNonSlip"></label>
+            </div>
+        </div>
+        <!-- Sanitary Specific Fields -->
+        <div id="sanitaryFields" class="d-none">
+            <div class="form-group">
+                <label for="isBiodegradable">Is Biodegradable:</label>
+                <input type="checkbox" id="isBiodegradable" class="form-check-input" th:field="*{productRequestDto.Biodegradable}"/>
+                <label class="form-check-label" for="isBiodegradable"></label>
+            </div>
+            <div class="form-group">
+                <label for="isReusable">Is Reusable:</label>
+                <input type="checkbox" id="isReusable" class="form-check-input" th:field="*{productRequestDto.Reusable}"/>
+                <label class="form-check-label" for="isReusable"></label>
+            </div>
+            <div class="form-group">
+                <label for="sanitaryMaterial">Material:</label>
+                <select id="sanitaryMaterial" class="form-control" th:field="*{productRequestDto.material.id}" required>
+                    <option value="" disabled selected>Select a material</option>
+                    <option th:each="material : ${materials}" th:value="${material.id}" th:text="${material.name}"></option>
+                </select>
+            </div>
+        </div>
+        <!-- Others Specific Fields -->
+        <div id="othersFields" class="d-none">
+            <div class="form-group">
+                <label for="othersMaterial">Material:</label>
+                <select id="othersMaterial" class="form-control" th:field="*{productRequestDto.material.id}" required>
+                    <option value="" disabled selected>Select a material</option>
+                    <option th:each="material : ${materials}" th:value="${material.id}" th:text="${material.name}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="othersColor">Color:</label>
+                <select id="othersColor" class="form-control" th:field="*{productRequestDto.color.id}" required>
+                    <option value="" disabled selected>Select a color</option>
+                    <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}"></option>
+                </select>
             </div>
         </div>
 
@@ -110,27 +181,36 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#productType').change(function() {
-            var selectedType = $(this).val();
+       $('#productType').change(function() {
+           var selectedType = $(this).val();
 
-            // Reset all specific fields
-            $('#accessoryFields').addClass('d-none');
-            $('#decorationFields').addClass('d-none');
-            $('#drinkFields').addClass('d-none');
-            $('#foodFields').addClass('d-none');
+           // Reset all specific fields
+           $('#accessoryFields').addClass('d-none');
+           $('#decorationFields').addClass('d-none');
+           $('#drinkFields').addClass('d-none');
+           $('#foodFields').addClass('d-none');
+           $('#railingFields').addClass('d-none');
+           $('#sanitaryFields').addClass('d-none');
+           $('#othersFields').addClass('d-none');
 
-            // Show specific fields based on selected type
-            if (selectedType === 'Accessory') {
-                $('#accessoryFields').removeClass('d-none');
-            } else if (selectedType === 'Decoration') {
-                $('#decorationFields').removeClass('d-none');
-            } else if (selectedType === 'Drink') {
-                $('#drinkFields').removeClass('d-none');
-            } else if (selectedType === 'Food') {
-                $('#foodFields').removeClass('d-none');
-            }
-        });
-    });
+           // Show specific fields based on selected type
+           if (selectedType === 'Accessory') {
+               $('#accessoryFields').removeClass('d-none');
+           } else if (selectedType === 'Decoration') {
+               $('#decorationFields').removeClass('d-none');
+           } else if (selectedType === 'Drink') {
+               $('#drinkFields').removeClass('d-none');
+           } else if (selectedType === 'Food') {
+               $('#foodFields').removeClass('d-none');
+           } else if (selectedType === 'Railing') {
+               $('#railingFields').removeClass('d-none');
+           } else if (selectedType === 'Sanitary') {
+               $('#sanitaryFields').removeClass('d-none');
+           } else if (selectedType === 'Others') {
+               $('#othersFields').removeClass('d-none');
+           }
+       });
+   });
 </script>
 </body>
 </html>
