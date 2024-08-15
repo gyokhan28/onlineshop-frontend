@@ -14,6 +14,6 @@ public interface BrandClient {
 
   @GetMapping("/get-all-colors")
    List<Color> getAllColors();
-  @GetMapping("/getAllMaterials")
+  @GetMapping("/get-all-materials")
      List<Material> getAllMaterials();
 }
