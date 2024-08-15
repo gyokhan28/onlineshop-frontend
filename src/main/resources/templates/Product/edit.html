@@ -19,14 +19,13 @@
     <form th:action="@{/products/edit/submit}" method="post">
         <!-- Hidden input for the product ID -->
         <input type="hidden" name="id" th:value="${productForUpdate.id}"/>
+        <!-- Hidden input for product type -->
+        <input type="hidden" name="productType" th:value="${productForUpdate.productType}" />
 
-        <!-- Product Type Field (hidden) -->
-        <input type="hidden" id="productType" name="productType" th:value="${productForUpdate.productType}"/>
-
+        <!-- Disabled Product Type Selection -->
         <div class="form-group">
             <label for="productTypeSelect">Product Type:</label>
-            <select id="productTypeSelect" class="form-control" name="productType" required>
-                <option value="" disabled>Select a product type</option>
+            <select id="productTypeSelect" class="form-control" disabled>
                 <option value="Accessory" th:selected="${productForUpdate.productType == 'Accessory'}">Accessory</option>
                 <option value="Decoration" th:selected="${productForUpdate.productType == 'Decoration'}">Decoration</option>
                 <option value="Drink" th:selected="${productForUpdate.productType == 'Drink'}">Drink</option>
@@ -60,7 +59,7 @@
         </div>
 
         <!-- Accessory Specific Fields -->
-        <div id="accessoryFields" class="d-none">
+        <div th:if="${productForUpdate.productType == 'Accessory'}">
             <div class="form-group">
                 <label for="brand">Brand:</label>
                 <select id="brand" class="form-control" name="productRequestDto.brand.id" required>
@@ -80,123 +79,109 @@
         </div>
 
         <!-- Decoration Specific Fields -->
-        <div id="decorationFields" class="d-none">
+        <div th:if="${productForUpdate.productType == 'Decoration'}">
             <div class="form-group">
                 <label for="decorationBrand">Brand:</label>
-                <select id="decorationBrand" class="form-control" name="productRequestDto.brand.id" required>
+                <select id="decorationBrand" class="form-control" th:field="*{productRequestDto.brand.id}" required>
                     <option value="" disabled selected>Select a brand</option>
-                    <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"
-                            th:selected="${productForUpdate.brand != null && productForUpdate.brand.id == brand.id}"></option>
+                    <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="material">Material:</label>
-                <select id="material" class="form-control" name="productRequestDto.material.id" required>
+                <select id="material" class="form-control" th:field="*{productRequestDto.material.id}" required>
                     <option value="" disabled selected>Select a material</option>
-                    <option th:each="material : ${materials}" th:value="${material.id}" th:text="${material.name}"
-                            th:selected="${productForUpdate.material != null && productForUpdate.material.id == material.id}"></option>
+                    <option th:each="material : ${materials}" th:value="${material.id}" th:text="${material.name}"></option>
                 </select>
             </div>
         </div>
 
         <!-- Drink Specific Fields -->
-        <div id="drinkFields" class="d-none">
+        <div th:if="${productForUpdate.productType == 'Drink'}">
             <div class="form-group">
                 <label for="bestBefore">Best Before:</label>
-                <input type="date" id="bestBefore" class="form-control" name="productRequestDto.bestBefore"
-                       th:value="${productForUpdate.bestBefore}"/>
+                <input type="date" id="bestBefore" class="form-control" th:field="*{productRequestDto.bestBefore}" required/>
             </div>
         </div>
 
         <!-- Food Specific Fields -->
-        <div id="foodFields" class="d-none">
+        <div th:if="${productForUpdate.productType == 'Food'}">
             <div class="form-group">
                 <label for="expiryDate">Expiry Date:</label>
-                <input type="date" id="expiryDate" class="form-control" name="productRequestDto.expiryDate"
-                       th:value="${productForUpdate.expiryDate}"/>
+                <input type="date" id="expiryDate" class="form-control" th:field="*{productRequestDto.expiryDate}"/>
             </div>
         </div>
 
         <!-- Railing Specific Fields -->
-        <div id="railingFields" class="d-none">
+        <div th:if="${productForUpdate.productType == 'Railing'}">
             <div class="form-group">
                 <label for="railingBrand">Brand:</label>
-                <select id="railingBrand" class="form-control" name="productRequestDto.brand.id" required>
+                <select id="railingBrand" class="form-control" th:field="*{productRequestDto.brand.id}" required>
                     <option value="" disabled selected>Select a brand</option>
-                    <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"
-                            th:selected="${productForUpdate.brand != null && productForUpdate.brand.id == brand.id}"></option>
+                    <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="railingMaterial">Material:</label>
-                <select id="railingMaterial" class="form-control" name="productRequestDto.material.id" required>
+                <select id="railingMaterial" class="form-control" th:field="*{productRequestDto.material.id}" required>
                     <option value="" disabled selected>Select a material</option>
-                    <option th:each="material : ${materials}" th:value="${material.id}" th:text="${material.name}"
-                            th:selected="${productForUpdate.material != null && productForUpdate.material.id == material.id}"></option>
+                    <option th:each="material : ${materials}" th:value="${material.id}" th:text="${material.name}"></option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="railingColor">Color:</label>
-                <select id="railingColor" class="form-control" name="productRequestDto.color.id" required>
+                <select id="railingColor" class="form-control" th:field="*{productRequestDto.color.id}" required>
                     <option value="" disabled selected>Select a color</option>
-                    <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}"
-                            th:selected="${productForUpdate.color != null && productForUpdate.color.id == color.id}"></option>
+                    <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}"></option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="isOutdoor">Is Outdoor:</label>
-                <input type="checkbox" id="isOutdoor" class="form-check-input" name="productRequestDto.Outdoor"
-                       th:checked="${productForUpdate.Outdoor}"/>
+                <input type="checkbox" id="isOutdoor" class="form-check-input" th:field="*{productRequestDto.Outdoor}"/>
                 <label class="form-check-label" for="isOutdoor"></label>
             </div>
             <div class="form-group">
                 <label for="isNonSlip">Is Non-Slip:</label>
-                <input type="checkbox" id="isNonSlip" class="form-check-input" name="productRequestDto.NonSlip"
-                       th:checked="${productForUpdate.NonSlip}"/>
+                <input type="checkbox" id="isNonSlip" class="form-check-input" th:field="*{productRequestDto.NonSlip}"/>
                 <label class="form-check-label" for="isNonSlip"></label>
             </div>
         </div>
 
         <!-- Sanitary Specific Fields -->
-        <div id="sanitaryFields" class="d-none">
+        <div th:if="${productForUpdate.productType == 'Sanitary'}">
             <div class="form-group">
                 <label for="isBiodegradable">Is Biodegradable:</label>
-                <input type="checkbox" id="isBiodegradable" class="form-check-input" name="productRequestDto.Biodegradable"
-                       th:checked="${productForUpdate.Biodegradable}"/>
+                <input type="checkbox" id="isBiodegradable" class="form-check-input" th:field="*{productRequestDto.Biodegradable}"/>
                 <label class="form-check-label" for="isBiodegradable"></label>
             </div>
             <div class="form-group">
                 <label for="isReusable">Is Reusable:</label>
-                <input type="checkbox" id="isReusable" class="form-check-input" name="productRequestDto.Reusable"
-                       th:checked="${productForUpdate.Reusable}"/>
+                <input type="checkbox" id="isReusable" class="form-check-input" th:field="*{productRequestDto.Reusable}"/>
                 <label class="form-check-label" for="isReusable"></label>
             </div>
             <div class="form-group">
                 <label for="sanitaryMaterial">Material:</label>
-                <select id="sanitaryMaterial" class="form-control" name="productRequestDto.material.id" required>
+                <select id="sanitaryMaterial" class="form-control" th:field="*{productRequestDto.material.id}" required>
                     <option value="" disabled selected>Select a material</option>
-                    <option th:each="material : ${materials}" th:value="${material.id}" th:text="${material.name}"
-                            th:selected="${productForUpdate.material != null && productForUpdate.material.id == material.id}"></option>
+                    <option th:each="material : ${materials}" th:value="${material.id}" th:text="${material.name}"></option>
                 </select>
             </div>
         </div>
 
         <!-- Others Specific Fields -->
-        <div id="othersFields" class="d-none">
+        <div th:if="${productForUpdate.productType == 'Others'}">
             <div class="form-group">
                 <label for="othersMaterial">Material:</label>
-                <select id="othersMaterial" class="form-control" name="productRequestDto.material.id" required>
+                <select id="othersMaterial" class="form-control" th:field="*{productRequestDto.material.id}" required>
                     <option value="" disabled selected>Select a material</option>
-                    <option th:each="material : ${materials}" th:value="${material.id}" th:text="${material.name}"
-                            th:selected="${productForUpdate.material != null && productForUpdate.material.id == material.id}"></option>
+                    <option th:each="material : ${materials}" th:value="${material.id}" th:text="${material.name}"></option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="othersColor">Color:</label>
-                <select id="othersColor" class="form-control" name="productRequestDto.color.id" required>
+                <select id="othersColor" class="form-control" th:field="*{productRequestDto.color.id}" required>
                     <option value="" disabled selected>Select a color</option>
-                    <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}"
-                            th:selected="${productForUpdate.color != null && productForUpdate.color.id == color.id}"></option>
+                    <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}"></option>
                 </select>
             </div>
         </div>
@@ -208,44 +193,5 @@
 </div>
 
 <div class="footer" th:replace="~{fragments/footer.html}"></div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Show or hide fields based on selected product type
-        $('#productTypeSelect').change(function() {
-            var selectedType = $(this).val();
-
-            // Hide all specific fields
-            $('#accessoryFields').addClass('d-none');
-            $('#decorationFields').addClass('d-none');
-            $('#drinkFields').addClass('d-none');
-            $('#foodFields').addClass('d-none');
-            $('#railingFields').addClass('d-none');
-            $('#sanitaryFields').addClass('d-none');
-            $('#othersFields').addClass('d-none');
-
-            // Show specific fields based on selected type
-            if (selectedType === 'Accessory') {
-                $('#accessoryFields').removeClass('d-none');
-            } else if (selectedType === 'Decoration') {
-                $('#decorationFields').removeClass('d-none');
-            } else if (selectedType === 'Drink') {
-                $('#drinkFields').removeClass('d-none');
-            } else if (selectedType === 'Food') {
-                $('#foodFields').removeClass('d-none');
-            } else if (selectedType === 'Railing') {
-                $('#railingFields').removeClass('d-none');
-            } else if (selectedType === 'Sanitary') {
-                $('#sanitaryFields').removeClass('d-none');
-            } else if (selectedType === 'Others') {
-                $('#othersFields').removeClass('d-none');
-            }
-        });
-
-        // Trigger change event on page load to handle initial state
-        $('#productTypeSelect').trigger('change');
-    });
-</script>
 </body>
 </html>

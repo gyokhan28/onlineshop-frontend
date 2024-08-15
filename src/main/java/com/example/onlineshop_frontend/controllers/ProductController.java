@@ -44,6 +44,7 @@ public class ProductController {
 
   @GetMapping("/edit/{id}")
   String editProduct(@PathVariable(name = "id") Long id, Model model) {
+    model.addAttribute("productRequestDto", new ProductRequestDto());
     model.addAttribute("productForUpdate", productClient.getProductById(id));
     model.addAttribute("brands", brandClient.getAllBrand());
     model.addAttribute("colors", brandClient.getAllColors());
