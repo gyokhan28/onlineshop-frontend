@@ -8,9 +8,9 @@ import java.util.List;
 @FeignClient(name = "onlineshop-api-brands", url = "http://localhost:8082/brand")
 public interface BrandClient {
 
-  @GetMapping("/getAllBrand")
+  @GetMapping("/get-all-brands")
    List<Brand> getAllBrand();
 
-  @GetMapping("/getAllColors")
+  @GetMapping("/get-all-colors")
    List<Color> getAllColors();
 }
