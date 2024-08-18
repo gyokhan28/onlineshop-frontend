@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments/head.html(title='Products')}">
+    <!-- Link to Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .content {
+            flex: 1;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .footer {
+            flex-shrink: 0;
+        }
+        .table img {
+            max-width: 100px;
+            height: auto;
+        }
+        .btn-primary {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<nav th:insert="~{fragments/navbar.html}"></nav>
+
+<div class="content">
+    <div class="container">
+        <h1 class="text-center mb-4">Всички Продукти</h1>
+        <div class="row mb-4">
+            <div class="col text-right">
+                <form action="/products/create" method="get">
+                    <button type="submit" class="btn btn-primary">Добави Продукт</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Тип Продукт</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Име</th>
+                        <th scope="col">Цена</th>
+                        <th scope="col">Количество</th>
+                        <th scope="col">Изображение</th>
+                        <th scope="col">Бранд</th>
+                        <th scope="col">Цвят</th>
+                        <th scope="col">Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${allProducts.body}">
+                        <td th:text="${product.productType}"></td>
+                        <td th:text="${product.id}"></td>
+                        <td th:text="${product.name}"></td>
+                        <td th:text="${product.price}"></td>
+                        <td th:text="${product.quantity}"></td>
+                        <td>
+                            <img th:src="${product.imageLocation}" alt="Image not found"/>
+                        </td>
+                        <td th:if="${product.brand != null}" th:text="${product.brand.name}"></td>
+                        <td th:unless="${product.brand != null}"></td>
+                        <td th:if="${product.color != null}" th:text="${product.color.name}"></td>
+                        <td th:unless="${product.color != null}"></td>
+
+                        <td>
+                            <form th:action="@{'/products/delete/' + ${product.id}}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i> Изтрий
+                                </button>
+                            </form>
+                            <form th:action="@{'/products/edit/' + ${product.id}}" method="get" style="display:inline;">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-edit"></i> Редактирай
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer" th:replace="~{fragments/footer.html}"></div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
